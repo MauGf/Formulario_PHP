@@ -15,7 +15,7 @@
 		
 		<br>
 		<br>
-		<form NAME="selecciona" ACTION="practica_B.php" METHOD="POST">
+		<form NAME="selecciona" ACTION="consultar.php" METHOD="POST">
 			<div class="col-lg-10" >
 				<label for="select" class="col-lg-2 control-label">Mostrar viviendas de  :</label>
 				<div class="col-lg-10">
@@ -40,7 +40,7 @@
 		</form>
 		<?PHP
 
-		$conexion = mysqli_connect("127.0.0.1", "root", "practicaphp", "inmobiliaria");
+		$conexion = mysqli_connect("127.0.0.1", "root", "", "inmobiliaria");
 		if (!$conexion)
 		{
 			echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
