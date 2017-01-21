@@ -32,7 +32,7 @@
 				$tamano = $_REQUEST['tamano'];
 				$extras = $_REQUEST['extras'];
 				$observaciones = $_REQUEST['observaciones'];
-
+				//<--------------------------------------------------------------------------------->
 				$error = false;
 				if (isset($insertar))
 				{
@@ -64,41 +64,38 @@
 						$errores["tamano"] = "";
 
 					// Subir fichero con la foto de la vivienda
-					$copiarFichero = false;
-
-					// Copiar fichero en directorio de ficheros subidos
-					// Se renombra para evitar que sobreescriba un fichero existente
-					// Para garantizar la unicidad del nombre se añade una marca de tiempo
-					if (is_uploaded_file ($_FILES['foto']['tmp_name']))
+					$copiarFichero="true";
+					$uploadedfile_size=$_FILES['foto'][size];
+					echo $_FILES[foto][name];
+					if ($_FILES[foto][size]>1000000)
+					{$msg=$msg."El archivo es mayor que 1MB, debes reduzcirlo antes de subirlo<BR>";
+					 $copiarFichero="false";}
+					// Si el archivo no es JPG o PNG el archivo no sera guardado
+					if (!($_FILES[foto][type] =="image/jpeg" OR $_FILES[foto][type] =="image/png"))
 					{
-						$nombreDirectorio = "fotos/";
-						$nombreFichero = $_FILES['foto']['name'];
-						$copiarFichero = true;
 
+						$msg=$msg." No es permitido tu archivo tiene que ser JPG o png. Otros archivos no son permitidos<BR>";
+						$copiarFichero="false";
+					}
+
+					if($copiarFichero=="true"){
+						// Mover foto a su ubicación definitiva
+						$nombreFichero=$_FILES[foto][name];
+						$add="fotos/$nombreFichero";
 						// Si ya existe un fichero con el mismo nombre, renombrarlo
-						$nombreCompleto = $nombreDirectorio . $nombreFichero;
+						$nombreCompleto = $add;
 						if (is_file($nombreCompleto))
 						{
 							$idUnico = time();
 							$nombreFichero = $idUnico . "-" . $nombreFichero;
 						}
-					}
-					// El fichero introducido supera el límite de tamaño permitido
-					else if ($_FILES['foto']['error'] == UPLOAD_ERR_FORM_SIZE)
-					{
-						$maxsize = $_REQUEST['MAX_FILE_SIZE'];
-						$errores["foto"] = "¡El tamaño del fichero supera el límite permitido ($maxsize bytes)!";
-						$error = true;
-					}
-					// No se ha introducido ningún fichero
-					else if ($_FILES['foto']['name'] == "")
-						$nombreFichero = '';
-					// El fichero introducido no se ha podido subir
-					else
-					{
-						$errores["foto"] = "¡No se ha podido subir el fichero!";
-						$error = true;
-					}
+
+
+						if(move_uploaded_file ($_FILES[foto][tmp_name], $add)){
+							echo " Ha sido subido satisfactoriamente";
+						}else{echo "Error al subir el archivo";}
+
+					}else{echo $msg;}
 				}
 
 				// Si los datos son correctos, procesar formulario
@@ -135,9 +132,6 @@
 						or die ("Fallo en la inserción");
 					mysqli_close ($conexion);
 
-					// Mover foto a su ubicación definitiva
-					if ($copiarFichero)
-						move_uploaded_file ($_FILES['foto']['tmp_name'], $nombreDirectorio . $nombreFichero);
 
 					print ("<H1>Inserción de vivienda</H1>\n");
 					print ("<P>Estos son los datos introducidos:</P>\n");
@@ -155,7 +149,7 @@
 					print ("\n");
 
 					if ($copiarFichero == true)
-						print ("   <LI>Foto: <A TARGET='_blank' HREF='$nombreDirectorio$nombreFichero'>$nombreFichero</A>\n");
+						print ("   <LI>Foto: <A TARGET='_blank' HREF='$add'>$nombreFichero</A>\n");
 					else
 						print ("   <LI>Foto: (no hay)\n");
 
@@ -170,6 +164,10 @@
 			else
 			{
 			?>
+			
+			<!--------------------------------------------------------------------------------->
+			<!--Captura de datos  -->
+			
 			<H1>Inserción de vivienda</H1>
 
 			<P>Introduzca los datos de la vivienda:</P>
@@ -318,6 +316,7 @@
 			</div>
 		
 		</div>
+		<!--------------------------------------------------------------------------------->
 		<div class="col-lg-12">
 		<hr>
 		<div align ="center"class="panel-footer">
