@@ -1,5 +1,5 @@
 # Formulario_PHP
-Formulario para introducir los datos de una vivienda
+Formulario para introducir los datos de una vivienda y almacenarlos en la base de datos
 
 
 ![image1](https://cloud.githubusercontent.com/assets/25255847/22177399/345140f8-dfe2-11e6-9f9d-a0de4c6fbf6d.PNG)
