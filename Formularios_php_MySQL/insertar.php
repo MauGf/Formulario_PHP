@@ -105,7 +105,7 @@
 				if (isset($insertar) && $error==false)
 				{
 					// Insertar la vivienda en la Base de Datos
-					$conexion = mysqli_connect("127.0.0.1", "root", "practicaphp", "inmobiliaria");
+					$conexion = mysqli_connect("127.0.0.1", "root", "", "inmobiliaria");
 					if (!$conexion)
 					{
 						echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
@@ -163,7 +163,7 @@
 					print ("</UL>\n");
 					echo("<BR>");
 					echo ("<P>[ <A HREF='javascript:history.back()'>Volver</A> ]</P>\n");
-					print ("<P>[ <A HREF='practica_A.php'>Insertar otra vivienda</A> ]</P>\n");
+					print ("<P>[ <A HREF='insertar.php'>Insertar otra vivienda</A> ]</P>\n");
 				}
 
 			}
@@ -174,7 +174,7 @@
 
 			<P>Introduzca los datos de la vivienda:</P>
 
-			<form  CLASS="borde" ACTION="practica_A.php" METHOD="POST" ENCTYPE="multipart/form-data">
+			<form  CLASS="borde" ACTION="insertar.php" METHOD="POST" ENCTYPE="multipart/form-data">
 				<div class="col-lg-10" >
 				<label for="select" class="col-lg-2 control-label">Tipo de Vivienda :</label>
 				<div class="col-lg-10">
