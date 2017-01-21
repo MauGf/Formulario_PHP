@@ -316,6 +316,7 @@
 			</div>
 		
 		</div>
+		<!-- Fin Captura de datos  -->
 		
 		<div class="col-lg-12">
 		<hr>
